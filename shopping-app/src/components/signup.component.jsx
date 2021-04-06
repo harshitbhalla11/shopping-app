@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 
+import Footer from './footer';
+import LoginNav from "./Loginnav"
+import './logindesign.css';
 export default class SignUp extends Component {
     render() {
         return (
+            
             <form>
+                <LoginNav/>
+        <Footer/>
+        <div className="outer">
+        <div className="inner">
                 <h3>Register</h3>
 
                 <div className="form-group">
@@ -30,6 +38,7 @@ export default class SignUp extends Component {
                 <p className="forgot-password text-right">
                     Already registered <a href="#">log in?</a>
                 </p>
+                </div></div>
             </form>
         );
     }

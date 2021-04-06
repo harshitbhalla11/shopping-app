@@ -1,5 +1,5 @@
 import React from "react";
-import { LogoNodejs, LogoFacebook, LogoDiscord, LogoTwitter } from 'react-ionicons'
+import { LogoNodejs, LogoFacebook, LogoDiscord, LogoTwitter } from "react-ionicons"
 
 const Footer = () => (
     <div className="footer">

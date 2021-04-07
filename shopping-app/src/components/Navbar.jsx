@@ -48,7 +48,7 @@ const Nav = ({ isAuth }) => {
     setError('')
 
     try {
-      this.props.isAuth = false
+      
       await logout()
       history.push('/signin')
     } catch {

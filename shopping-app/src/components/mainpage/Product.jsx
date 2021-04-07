@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap'
-
 import * as actions from '../../store/actions/actions'
 const Product = props => {
   const { incrementQty, decrementQty, data } = props

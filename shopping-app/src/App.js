@@ -11,7 +11,7 @@ import Home from "./components/Home";
 import Product from "./components/mainpage/Products";
 import { AuthProvider } from "./components/contexts/AuthContext";
 const App = () => {
-	
+	const isAuth= true;
 
 	let routes = (
 		<>

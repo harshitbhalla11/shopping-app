@@ -5,7 +5,7 @@
 body {
   min-height: 100vh;
   display: flex;
-  font-weight: 400;
+  font-weight: 10;
   font-family: sans-serif;
   background: #12c2e9;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);  
@@ -28,4 +28,12 @@ a:hover {
 }
 .logoimg:hover {
   transform: rotate(360deg);
+}
+.h5{
+  padding: 20px;
+
+}
+.logoutbutton{
+ 
+    margin-right: 10px;
 }

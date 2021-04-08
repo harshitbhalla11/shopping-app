@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
 
-import { Button } from 'react-bootstrap'
-import products from './mainpage/Products'
-import { useAuth } from './contexts/AuthContext'
-import { Route,Switch,Link, useHistory } from 'react-router-dom'
-import Footer from './Footer'
+import { Button,Alert } from 'react-bootstrap'
+import { useAuth } from '../contexts/AuthContext'
+import {  useHistory } from 'react-router-dom'
+import Footer from '../Footer'
 import './logindesign.css'
-function Login (props) {
+
+function Login () {
   const emailRef = useRef()
   const passwordRef = useRef()
   const { login } = useAuth()
@@ -18,8 +18,9 @@ function Login (props) {
     e.preventDefault()
 
     try {
-      setError('')
-      setLoading(true)
+     
+      setError('');
+      setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value)
       history.push('/product')
     } catch {
@@ -31,11 +32,11 @@ function Login (props) {
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='outer'>
           <div className='inner'>
             <h3>Log in</h3>
-
+            {error && <Alert variant="danger">{error}</Alert>}
             <div className='form-group'>
               <label>Email</label>
               <input

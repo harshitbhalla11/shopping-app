@@ -10,7 +10,7 @@ export default function ProtectedRoute ({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={props => {
-        return currentUser ? <Component {...props} /> : <Redirect to='/login' />
+        return currentUser ? <Component {...props} /> : <Redirect to='/signin' />
       }}
     ></Route>
   )

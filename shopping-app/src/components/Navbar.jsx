@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { Navbar } from 'react-bootstrap'
+import { Navbar,Form } from 'react-bootstrap'
 import Mainlogo from './Mainlogo.svg'
-
+import { BiLogOutCircle } from "react-icons/bi";
 import { useState } from 'react'
 import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from './contexts/AuthContext'
+import { IoCartSharp } from "react-icons/io5";
 
 //  import products from './components/product';
 
@@ -17,16 +18,18 @@ const Nav = ({ isAuth }) => {
 
   const history = useHistory()
 
-  const loggedInItems = (
-    <li className='nav-item'>
-      <h1>welcome{currentUser && currentUser.email}</h1>
-      <Button onClick={handleLogout}>
-        <Link className='nav-link' to={'/signin'}>
-          Logout
-        </Link>
-      </Button>
-      {error && <Alert variant='danger'>{error}</Alert>}
-    </li>
+  const loggedInItems = ( 
+    <>
+      <h5>welcome {currentUser && currentUser.email}</h5>
+      <li className='nav-item'>
+
+        <Button classname= 'logoutbutton' expand="lg" variant="dark" onClick={handleLogout}><BiLogOutCircle />
+          <Link to={'/signin'} />
+        </Button>
+        <Form.Label variant="light" onClick={ ()=>history.push('/cart')}> <IoCartSharp/>Cart</Form.Label>
+        {error && <Alert variant='danger'>{error}</Alert>}
+      </li>
+    </>
   )
 
   const loginItems = (
@@ -44,12 +47,13 @@ const Nav = ({ isAuth }) => {
     </>
   )
 
-  async function handleLogout () {
+  async function handleLogout() {
     setError('')
 
     try {
-      this.props.isAuth = false
+
       await logout()
+     
       history.push('/signin')
     } catch {
       setError('Failed to log out')

@@ -8,13 +8,16 @@ export function useAuth () {
 
 export function AuthProvider ({ children }) {
   const [currentUser, setCurrentUser] = useState({})
+  // const [isAuth, setIsAuth] = useState({})
   const [loading, setLoading] = useState(true)
 
-  function signup (email, password) {
-    return auth.createUserWithEmailAndPassword(email, password)
+  function signup (email, password,displayName) {
+   
+    return auth.createUserWithEmailAndPassword(email, password,displayName)
   }
 
   function login (email, password) {
+ 
     return auth.signInWithEmailAndPassword(email, password)
   }
 
@@ -22,9 +25,15 @@ export function AuthProvider ({ children }) {
     return auth.signOut()
   }
 
-  function resetPassword (email) {
-    return auth.sendPasswordResetEmail(email)
-  }
+//     function userAuth () {
+//     var user = auth().currentUser;
+//     var isAuth=false;
+//   if (user!==null && user!==undefined) {
+//     isAuth=true;
+// } 
+//     return isAuth;
+//   }
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -39,8 +48,8 @@ export function AuthProvider ({ children }) {
     currentUser,
     login,
     signup,
-    logout,
-    resetPassword
+    logout
+    
   }
 
   return (

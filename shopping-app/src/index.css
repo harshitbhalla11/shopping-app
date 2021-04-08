@@ -33,10 +33,7 @@ a:hover {
   padding: 20px;
 
 }
-.logoutbtn{
-  background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;        
+.logoutbutton{
+ 
+    margin-right: 10px;
 }

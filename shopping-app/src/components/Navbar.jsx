@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { Navbar } from 'react-bootstrap'
+import { Navbar,Form } from 'react-bootstrap'
 import Mainlogo from './Mainlogo.svg'
 import { BiLogOutCircle } from "react-icons/bi";
 import { useState } from 'react'
@@ -18,15 +18,15 @@ const Nav = ({ isAuth }) => {
 
   const history = useHistory()
 
-  const loggedInItems = (
+  const loggedInItems = ( 
     <>
-      <h5>welcome{currentUser && currentUser.email}</h5>
+      <h5>welcome {currentUser && currentUser.email}</h5>
       <li className='nav-item'>
 
-        <Button expand="lg" variant="dark" onClick={handleLogout}><BiLogOutCircle />
+        <Button classname= 'logoutbutton' expand="lg" variant="dark" onClick={handleLogout}><BiLogOutCircle />
           <Link to={'/signin'} />
         </Button>
-        <Button variant="light"><IoCartSharp/></Button>
+        <Form.Label variant="light" onClick={ ()=>history.push('/cart')}> <IoCartSharp/>Cart</Form.Label>
         {error && <Alert variant='danger'>{error}</Alert>}
       </li>
     </>
@@ -53,6 +53,7 @@ const Nav = ({ isAuth }) => {
     try {
 
       await logout()
+     
       history.push('/signin')
     } catch {
       setError('Failed to log out')

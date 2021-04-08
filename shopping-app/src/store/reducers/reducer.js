@@ -1,5 +1,6 @@
 import * as actions from "../actions/actionTypes";
 
+
 const initialProductsData = [
 	{
 		_id: "1",
@@ -47,10 +48,13 @@ const initialProductsData = [
 	},
 ];
 
+
+
 const initialState = {
 	products: [...initialProductsData],
 	amount: 0,
-	totalQuantity: 0
+	totalQuantity: 0,
+	isAuth:false
 };
 
 const findProductIndex = (products, id) =>

@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
 
 import { Button,Alert } from 'react-bootstrap'
-import { useAuth } from './contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import {  useHistory } from 'react-router-dom'
-import Footer from './Footer'
+import Footer from '../Footer'
 import './logindesign.css'
 
-function Login ({ isAuth }) {
+function Login () {
   const emailRef = useRef()
   const passwordRef = useRef()
   const { login } = useAuth()
@@ -18,7 +18,7 @@ function Login ({ isAuth }) {
     e.preventDefault()
 
     try {
-      this.props.isAuth=false;
+     
       setError('');
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value)

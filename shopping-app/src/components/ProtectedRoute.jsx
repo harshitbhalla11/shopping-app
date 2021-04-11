@@ -1,17 +1,24 @@
 
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { useAuth } from './contexts/AuthContext'
+import { Route, Redirect } from 'react-router-dom';
+import {connect} from 'react-redux'
 
-export default function ProtectedRoute ({ component: Component, ...rest }) {
-  const { currentUser } = useAuth()
+function ProtectedRoute ({ isAuth, component: Component, ...rest }) {
 
   return (
     <Route
       {...rest}
       render={props => {
-        return currentUser ? <Component {...props} /> : <Redirect to='/signin' />
+        return isAuth ? <Component {...props} /> : <Redirect to='/signin' />
       }}
     ></Route>
   )
 }
+
+
+const mapStateToProps = state=>{
+	return{
+		isAuth:state.isAuth
+	}
+}
+export default connect(mapStateToProps,null)(ProtectedRoute)

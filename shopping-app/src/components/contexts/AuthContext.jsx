@@ -11,13 +11,13 @@ export function AuthProvider ({ children }) {
   // const [isAuth, setIsAuth] = useState({})
   const [loading, setLoading] = useState(true)
 
-  function signup (email, password,displayName) {
-   
-    return auth.createUserWithEmailAndPassword(email, password,displayName)
+  function signup (email, password) {
+
+    return auth.createUserWithEmailAndPassword(email, password)
   }
 
   function login (email, password) {
- 
+
     return auth.signInWithEmailAndPassword(email, password)
   }
 
@@ -30,7 +30,7 @@ export function AuthProvider ({ children }) {
 //     var isAuth=false;
 //   if (user!==null && user!==undefined) {
 //     isAuth=true;
-// } 
+// }
 //     return isAuth;
 //   }
 
@@ -49,7 +49,7 @@ export function AuthProvider ({ children }) {
     login,
     signup,
     logout
-    
+
   }
 
   return (

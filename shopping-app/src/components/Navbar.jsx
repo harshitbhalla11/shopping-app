@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
+import {connect} from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { Navbar,Form } from 'react-bootstrap'
 import Mainlogo from './Mainlogo.svg'
@@ -8,25 +9,30 @@ import { useState } from 'react'
 import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from './contexts/AuthContext'
 import { IoCartSharp } from "react-icons/io5";
+import * as actions from '../store/actions/actions'
+
 
 //  import products from './components/product';
 
-const Nav = ({ isAuth }) => {
+const Nav = (props) => {
+  const { isAuth } = props;
+  const { totalQuantity } = props;
+  
+  
   const [error, setError] = useState('')
-  console.log(useAuth())
   const { currentUser, logout } = useAuth()
 
   const history = useHistory()
 
-  const loggedInItems = ( 
+  const loggedInItems = (
     <>
-      <h5>welcome {currentUser && currentUser.email}</h5>
+      <h5>welcome {currentUser && currentUser.displayName}</h5>
       <li className='nav-item'>
 
-        <Button classname= 'logoutbutton' expand="lg" variant="dark" onClick={handleLogout}><BiLogOutCircle />
+        <Button className= 'logoutbutton' expand="lg" variant="dark" onClick={handleLogout}><BiLogOutCircle />
           <Link to={'/signin'} />
         </Button>
-        <Form.Label variant="light" onClick={ ()=>history.push('/cart')}> <IoCartSharp/>Cart</Form.Label>
+        <Form.Label variant="light" onClick={ ()=>history.push('/cart')}> <IoCartSharp/>Cart<p style={{color: "red"}}>{totalQuantity}</p> </Form.Label>
         {error && <Alert variant='danger'>{error}</Alert>}
       </li>
     </>
@@ -53,7 +59,7 @@ const Nav = ({ isAuth }) => {
     try {
 
       await logout()
-     
+      props.setAuthStatus(false)
       history.push('/signin')
     } catch {
       setError('Failed to log out')
@@ -61,7 +67,7 @@ const Nav = ({ isAuth }) => {
   }
 
   return (
-    <Navbar className='navbar navbar-expand-lg navbar-light'>
+    <Navbar className='navbar navbar-light bg-light'>
       <div className='container'>
         <Link className='navbar-brand' to={'/'}>
           <img className='logoimg' src={Mainlogo} style={{ width: '51px' }} />
@@ -76,4 +82,15 @@ const Nav = ({ isAuth }) => {
     </Navbar>
   )
 }
-export default Nav
+const mapStateToProps = state=>{
+	return{
+		isAuth:state.isAuth,
+    totalQuantity:state.totalQuantity
+	}
+}
+const mapDispatchToProps = dispatch=>{
+  return {
+    setAuthStatus: authStatus => dispatch(actions.setAuthStatus(authStatus))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Nav)

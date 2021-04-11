@@ -1,67 +1,37 @@
+import React, { useEffect, useState } from "react";
 import * as actions from "../actions/actionTypes";
+import { firebase, db } from '../../components/firebase/firebase';
+// import data from '../../../public/data.json'
 
 
-const initialProductsData = [
-	{
-		_id: "1",
-		name: "Slim Shirt",
-		category: "Shirts",
-		image: "/images/d1.jpg",
-		price: 60,
-		brand: " Nike",
-		rating: 4.5,
-		numReviews: 10,
-		quantity: 0,
-	},
-	{
-		_id: "2",
-		name: "Fit Shirt",
-		category: "Shirts",
-		image: "/images/d1.jpg",
-		price: 50,
-		brand: " Nike",
-		rating: 4.2,
-		numReviews: 5,
-		quantity: 0,
-	},
-	{
-		_id: "3",
-		name: "Best Pants",
-		category: "Pants",
-		image: "/images/d1.jpg",
-		price: 70,
-		brand: " Nike",
-		rating: 4.5,
-		numReviews: 8,
-		quantity: 0,
-	},
-	{
-		_id: "4",
-		name: "Best Pants",
-		category: "Pants",
-		image: "/images/d1.jpg",
-		price: 70,
-		brand: " Nike",
-		rating: 4.5,
-		numReviews: 8,
-		quantity: 0,
-	},
-];
+
+const ProductsData = [];
 
 
+const AUTH_KEY_LOCAL_STORAGE = "authstatuskey";
 
 const initialState = {
-	products: [...initialProductsData],
+	products: null,
 	amount: 0,
 	totalQuantity: 0,
-	isAuth:false
+	isAuth: localStorage.getItem(AUTH_KEY_LOCAL_STORAGE)==="true",
+	loadingProducts: false,
+	productsFetchError: null
 };
 
+
 const findProductIndex = (products, id) =>
+
 	products.findIndex(product => product._id === id);
 let idx = null,
 	products = null, newAmount, newTotalQuantity;
+// let initialState = null;       
+// console.log(getInitialState())
+console.log("initialState", initialState)
 const reducer = (state = initialState, action) => {
+
+	console.log("this is products", state.products);
+
 	switch (action.type) {
 		case actions.INCREMENT_QTY:
 			idx = findProductIndex(state.products, action.id);
@@ -102,6 +72,22 @@ const reducer = (state = initialState, action) => {
 				products: [...products],
 			};
 
+		case actions.SET_AUTH_STATUS:
+			localStorage.setItem(AUTH_KEY_LOCAL_STORAGE, action.authStatus)
+			return {
+				...state,
+				isAuth: action.authStatus
+			}
+		
+		case actions.FETCH_PRODUCTS_START:
+			return {...state,loadingProducts:true, productsFetchError:null}
+
+		case actions.FETCH_PRODUCTS_SUCCESS:
+			return {...state,loadingProducts:false, products:action.products}
+
+		case actions.FETCH_PRODUCTS_FAILED:
+			return { ...state, loadingProducts: false, productsFetchError: action.error }
+		
 		default:
 			return state;
 	}

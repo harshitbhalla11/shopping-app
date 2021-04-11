@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react'
+import {connect} from 'react-redux'
 
 import { useAuth } from './contexts/AuthContext'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 import { Alert } from 'react-bootstrap'
 import Footer from './Footer'
+import * as actions from "../store/actions/actions"
 
-const SignUp = () => {
+const SignUp = (props) => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const displayref = useRef()
@@ -26,17 +28,22 @@ const SignUp = () => {
     try {
       setError('')
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value,displayref.current.value)
+      let res = await signup(emailRef.current.value, passwordRef.current.value)
+      await res.user.updateProfile({ displayName: displayref.current.value })
+      props.setAuthStatus(true);
       history.push('/signin')
+
     } catch {
       setError('Failed to create an account')
+      setLoading(false)
     }
 
-    setLoading(false)
   }
+
 
   return (
     <>
+    {props.isAuth && <Redirect to="/" />}
       <form onSubmit={handleSubmit}>
         <div className='outer'>
           <div className='inner'>
@@ -107,4 +114,14 @@ const SignUp = () => {
     </>
   )
 }
-export default SignUp
+const mapStateToProps = state=>{
+	return{
+		isAuth:state.isAuth
+	}
+}
+const mapDispatchToProps = dispatch=>{
+  return {
+    setAuthStatus: authStatus => dispatch(actions.setAuthStatus(authStatus))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp)

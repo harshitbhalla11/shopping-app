@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import 'firebase/firestore';
 import 'firebase/auth'
 
 const Fb = firebase.initializeApp({
@@ -13,6 +14,11 @@ const Fb = firebase.initializeApp({
 
 })
 
+export const db = firebase.firestore();
+// const  database = firebase.database();
+// const  storage = firebase.storage();
 export const auth = Fb.auth()
+
 export var user = Fb.auth().currentUser;
-export default Fb;
+export  {Fb as default} ;
+ 

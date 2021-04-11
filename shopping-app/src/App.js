@@ -1,52 +1,53 @@
-import React,{useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-
+import { connect } from 'react-redux';
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Login from "./components/Loginpage/Login";
 import SignUp from "./components/Signup";
-import Home from "./components/Home";
-import Cart from "./components/cart";
+import Home from "./components/mainpage/Home";
+
 import Product from "./components/mainpage/Products";
 import { user } from './components/firebase/firebase'
 import { AuthProvider } from "./components/contexts/AuthContext";
+import AdminHome from "./components/mainpage/AdminHome";
 
-const App = () => {
-	const [isAuth, checkAuth] = useState(false);
+const App = ({ isAuth }) => {
 
-	useEffect(() => {
-		if(user!==null&&user.email!==null){
-			checkAuth(isAuth =>!isAuth )
-			console.log(isAuth);
-		}
-	  });
+	// let routes = (
+	// 	<>
+	// 		<Route path="/signin" component={Login} />
+	// 		<Route path="/signup" component={SignUp} />
+	// 	</>
+	// );
 
-	
-	console.log(isAuth);
-	// const isAuth=false;
+	// console.log(isAuth)
 
-	let routes = (
-		<>
-			<Route path="/signin" component={Login} />
-			<Route path="/signup" component={SignUp} />
-		</>
-	);
+	// let routes =
+	// 	(<>
+	// 		<Route path="/signin" component={Login} />
+	// 		<Route path="/signup" component={SignUp} />
+	// 		<ProtectedRoute path="/product" component={Product} />
+	// 		<ProtectedRoute path="/cart" component={Cart} />
+	// 		<ProtectedRoute path="/" component={Home} />
+	// 		<Redirect to="/" />
+	// 	</>)
 
-	if (isAuth) {
-		routes = <ProtectedRoute isAuth={isAuth} path="/product" component={Product} />;
-		routes = <ProtectedRoute isAuth={isAuth} path="/cart" component={Cart} />;
-	}
 	return (
 		<>
 			<AuthProvider>
 				<Router>
-					<Navbar isAuth={isAuth} />
-
+					<Navbar />
 					<Switch>
-						{routes}
-						<ProtectedRoute isAuth={isAuth} path="/" component={Home} />
+						<Route exact path="/signin" component={Login} />
+						<Route exact path="/signup" component={SignUp} />
+						<ProtectedRoute exact path="/product" component={Product} />
+						{/* <ProtectedRoute exact path="/cart/:id?" component={CartScreen} /> */}
+						<ProtectedRoute path="/home" component={Home} />
+						<ProtectedRoute path="/adminhome" component={AdminHome} />
+						<Redirect to="/" />
 					</Switch>
 				</Router>
 			</AuthProvider>
@@ -54,4 +55,9 @@ const App = () => {
 	);
 };
 
-export default App;
+const mapStateToProps = state => {
+	return {
+		isAuth: state.isAuth
+	}
+}
+export default connect(mapStateToProps)(App);

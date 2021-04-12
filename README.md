@@ -1,6 +1,7 @@
 # shopping-app
 
 firebase Configuration
+
 copy/paste your configuration from your Firebase project's dashboard into one of these files
 src/components/Firebase/firebase.js file
 .env file
